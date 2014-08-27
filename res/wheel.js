@@ -13,19 +13,23 @@ $(document).ready(function(){
 	var currentMousePosition = {'x': 0, 'y': 0};
 	var timer;
 	
-	var framesPerSecond = 60; // constant
+	var numSegments = 24;
+	var radiansPerPeg = 2*Math.PI / numSegments;
+	
+	var framesPerSecond = 30; // constant
 	var millisecondsPerFrame = 1000 / framesPerSecond; // measured in milliseconds / frame (put frames per second as denominator)
 	
 	// Wheel rotation metrics
 	var spinSpeed = 0; // measured in radians per second
 	var naturalDeceleration = 1 / framesPerSecond; // measured in radians/second lost per frame (put radians/second that should be lost per second as the numerator)
-	var collisionDeceleration = 1; // measured in radians/second lost per peg collision
+	var collisionDeceleration = 1 / framesPerSecond; // measured in radians/second lost per peg collision
 	
 	function trackMousePosition(e){
 		currentMousePosition = {'x': e.pageX, 'y': e.pageY};
 	}
 
 	var lastRotate; // keep track of the rotation from the last tick of wheelDrag, so that we can calculate the difference and adjust the rotation angle accordingly
+	var totalRotation = 0;
 	function wheelDrag(){
 		var currentRotate = Math.atan2(wheelCentre['x'] - currentMousePosition['x'], wheelCentre['y'] - currentMousePosition['y']);
 		var tickRotation = lastRotate - currentRotate;
@@ -46,26 +50,41 @@ $(document).ready(function(){
 	
 	canvas.addEventListener("mouseup", function(){
 		$(document).unbind('mousemove'); // when the left mouse button is released, we can stop tracking the mouse position
+		
 		clearInterval(timer); // we can also stop calling the wheelDrag function
 		timer = setInterval(wheelRelease, millisecondsPerFrame, false); // and instead start calling the wheelRelease function
 	});
 	
 	function wheelRelease(){
 		var tickRotation = spinSpeed / framesPerSecond; // rotation/frame = (rotation/second) / (frames/second)
+		var tickDeceleration = naturalDeceleration;
+
 		rotateWheel(tickRotation);
 		
+		//If we have moved into a new segment, calculate how many pegs where crossed and decelerate accordingly
+		if (previousNextPeg != currentNextPeg){
+			var numCollisions = Math.abs(currentNextPeg - previousNextPeg) / radiansPerPeg;
+			tickDeceleration += (numCollisions * collisionDeceleration);
+		}
+		
 		if (spinSpeed < 0)
-			spinSpeed += Math.min(-spinSpeed, naturalDeceleration);
+			spinSpeed += Math.min(-spinSpeed, tickDeceleration);
 		else if (spinSpeed > 0)
-			spinSpeed -= Math.min(spinSpeed, naturalDeceleration); 
+			spinSpeed -= Math.min(spinSpeed, tickDeceleration); 
 		else
 			clearInterval(timer); //if our speed has hit 0, we can stop the timer completely
 	}
 	
+	
+	var previousNextPeg;
+	var currentNextPeg;
 	function rotateWheel(angle){
+		previousNextPeg = currentNextPeg;
+	
 		// set the rotation point as the middle of the canvas, then rotate the canvas
 		context.translate(canvas.width /2, canvas.height /2);
 		context.rotate(angle);
+		totalRotation += angle;
 		
 		//now that the canvas is rotated, move back to the top left corner to prepare for drawing (since we want all drawing to occur from the top left corner)
 		context.translate(-canvas.width/2, -canvas.height/2);
@@ -75,5 +94,12 @@ $(document).ready(function(){
 
 		//Draw the next frame (which is just the same image again, but now on a rotated canvas)
 		context.drawImage(wheelImg, 0, 0);
+		
+		//Play the peg collision sound if we have moved into a new segment
+		currentNextPeg = Math.ceil(totalRotation/radiansPerPeg)*radiansPerPeg
+		if (previousNextPeg != currentNextPeg){
+			var pegSound = new Audio('res/peg.mp3');
+			pegSound.play();
+		}
 	}
 });
