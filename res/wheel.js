@@ -16,7 +16,10 @@ $(document).ready(function(){
 	var numSegments = 24;
 	var radiansPerPeg = 2*Math.PI / numSegments;
 	
-	var framesPerSecond = 30; // constant
+	var pegSound = new Audio('res/peg.mp3');
+	pegSound.volume = 0.05;
+	
+	var framesPerSecond = 60; // constant
 	var millisecondsPerFrame = 1000 / framesPerSecond; // measured in milliseconds / frame (put frames per second as denominator)
 	
 	// Wheel rotation metrics
@@ -98,7 +101,8 @@ $(document).ready(function(){
 		//Play the peg collision sound if we have moved into a new segment
 		currentNextPeg = Math.ceil(totalRotation/radiansPerPeg)*radiansPerPeg
 		if (previousNextPeg != currentNextPeg){
-			var pegSound = new Audio('res/peg.mp3');
+			//var pegSound = new Audio('res/peg.mp3');
+			pegSound.currentTime=0;
 			pegSound.play();
 		}
 	}
