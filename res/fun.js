@@ -7,14 +7,16 @@ var taysprite;
 
 $(document).ready(function(){
 	taytaylove.push(makeSprite("res/bird.png"));
+	taytaylove.push(makeSprite("res/red_queen.png"));
+	taytaylove.push(makeSprite("res/booyeah.png"));
+	taytaylove.push(makeSprite("res/frontal_orafice.png"));
+	taytaylove.push(makeSprite("res/mlady.png"));
 	
 	for (var i = 0; i < taytaylove.length; i++)
 	{
 		taytaylove[i].visible=false;
 		
 	}
-	
-	invoke_fun();
 });
 
 function invoke_fun()
