@@ -92,6 +92,7 @@ $(document).ready(function(){
 		else{
 			clearInterval(timer); //if our speed has hit 0, we can stop the timer completely
 			selectSong();
+			invoke_fun();
 		}
 	}
 	
@@ -114,25 +115,21 @@ $(document).ready(function(){
 		//Play the peg collision sound if we have moved into a new segment
 		currentNextPeg = Math.ceil(totalRotation/radiansPerPeg)*radiansPerPeg
 		if (previousNextPeg != currentNextPeg){
-			//var pegSound = new Audio('res/peg.mp3');
 			pegSound.currentTime=0;
 			pegSound.play();
 		}
 	}
 	
 	function selectSong(){
-		alert(totalRotation); 
-		//var totalRotationWrapped = wrapAngle(totalRotation);
-		for (i = numSegments; i > 0; i--){
-			alert("radians per peg: " + radiansPerPeg);
-			alert("i: " + i);
-			alert(totalRotation + ">" + i*radiansPerPeg);
-			if (totalRotation > i*radiansPerPeg){ 
+		
+		for (i = 1; i <= numSegments; i++){
+			if (totalRotation < i*radiansPerPeg){ 
 				if (currentSong){
 					currentSong.pause();
 					currentSong.currentTime=0;
 				}
-				alert("playing segment " + i);
+				
+				//alert("playing segment " + i);
 				currentSong = songs[i-1];
 				currentSong.loop = true;
 				currentSong.play();
