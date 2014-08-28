@@ -1,6 +1,8 @@
 var taytaylove = [];
 var funTimer;
+var bannerTimer;
 var tayperiod = 500;
+var bannerDrop = 120;
 var taystep = (Math.PI)/tayperiod;
 var tayprog = 0;
 var taysprite;
@@ -22,9 +24,32 @@ function init_fun(){
 function invoke_fun()
 {
 	if (!funTimer){
+		drop_banner();
 		funTimer = setInterval(funFunction, millisecondsPerFrame, false);
 	}
 }
+
+function drop_banner(){
+	banner=makeSprite("res/banner.png");
+	banner.image.onload = function(){
+	
+		//hardcoding ftw
+		banner.x=400;
+		banner.y=-110;
+		banner.visible=true;
+		bannerTimer = setInterval(bannerFunction, millisecondsPerFrame, false);
+	}
+}
+
+function bannerFunction(){
+	if (banner.y < bannerDrop){
+		banner.y++;
+	}
+	else{
+		clearInterval(bannerTimer);
+	}
+}
+
 
 function funFunction()
 {
