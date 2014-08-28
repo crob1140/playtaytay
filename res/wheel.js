@@ -5,18 +5,18 @@ $(document).ready(function(){
 	wheel = makeSprite("res/wheel.jpg");
 	peg = makeSprite("res/peg.png");
 	peg.image.onload = function(){
-		wheel.y += peg.image.height;
-		peg.y = peg.image.height/2 + 3;
-		peg.x = wheel.x +6;
+		peg.x = 322;
+		peg.y = 32;
 	}
+
 	wheel.image.onload = function()
 	{
 		wheel.x = wheel.image.width / 2;
-		wheel.y = wheel.image.height / 2;
+		wheel.y = (wheel.image.height / 2) + 60;
 		wheelCentre= {x:wheel.x, y:wheel.y};
 		
 		canvas.width = wheel.image.width;
-		canvas.height = wheel.image.height;
+		canvas.height = wheel.image.height + 60;
 		
 	};
 	
@@ -43,7 +43,7 @@ $(document).ready(function(){
 	var radiansPerPeg = 2*Math.PI / numSegments;
 	
 	var pegSound = new Audio('res/peg.mp3');
-	pegSound.volume = 0.05;
+	pegSound.volume = 0.5;
 	
 	// Wheel rotation metrics
 	var spinSpeed = 0; // measured in radians per second
