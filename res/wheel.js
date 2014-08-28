@@ -13,7 +13,7 @@ $(document).ready(function(){
 		canvas.height = wheel.image.height;
 	};
 	
-	
+	init_fun()
 	
 	var currentMousePosition = {'x': 0, 'y': 0};
 	var timer;
