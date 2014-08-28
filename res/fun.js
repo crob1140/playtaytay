@@ -17,8 +17,6 @@ $(document).ready(function(){
 		taytaylove[i].visible=false;
 		
 	}
-	
-	invoke_fun();
 });
 
 function invoke_fun()
