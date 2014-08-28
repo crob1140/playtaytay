@@ -1,16 +1,13 @@
 $(document).ready(function(){				
 	
+	var wheelCentre;
 	//'Global' variable instantiation
-	var canvas = document.getElementById('wheelCanvas');
-	var context = canvas.getContext('2d');
-	var wheelImg = new Image();
-	var wheelCentre; 
-	wheelImg.src = "res/wheel.jpg";
-	wheelImg.onload = function(){
-		canvas.width = wheelImg.width;
-		canvas.height = wheelImg.height;
-		wheelCentre = {'x': canvas.offsetLeft + (canvas.width / 2), 'y': canvas.offsetTop + (canvas.height / 2)};
-		context.drawImage(wheelImg, 0, 0);
+	wheel = makeSprite("res/wheel.jpg");
+	wheel.image.onload = function()
+	{
+		wheel.x = wheel.image.width / 2;
+		wheel.y = wheel.image.width / 2;
+		wheelCentre= {x:wheel.x, y:wheel.y};
 	};
 	
 	
@@ -36,9 +33,6 @@ $(document).ready(function(){
 	
 	var pegSound = new Audio('res/peg.mp3');
 	pegSound.volume = 0.05;
-	
-	var framesPerSecond = 60; // constant
-	var millisecondsPerFrame = 1000 / framesPerSecond; // measured in milliseconds / frame (put frames per second as denominator)
 	
 	// Wheel rotation metrics
 	var spinSpeed = 0; // measured in radians per second
@@ -118,18 +112,9 @@ $(document).ready(function(){
 		previousNextPeg = currentNextPeg;
 	
 		// set the rotation point as the middle of the canvas, then rotate the canvas
-		context.translate(canvas.width /2, canvas.height /2);
-		context.rotate(angle);
 		totalRotation += angle;
+		wheel.angle = totalRotation;
 		
-		//now that the canvas is rotated, move back to the top left corner to prepare for drawing (since we want all drawing to occur from the top left corner)
-		context.translate(-canvas.width/2, -canvas.height/2);
-		
-		//Clear the canvas to remove the previous frame
-		context.clearRect(0, 0, canvas.width, canvas.height);
-
-		//Draw the next frame (which is just the same image again, but now on a rotated canvas)
-		context.drawImage(wheelImg, 0, 0);
 		
 		//Play the peg collision sound if we have moved into a new segment
 		currentNextPeg = Math.ceil(totalRotation/radiansPerPeg)*radiansPerPeg
