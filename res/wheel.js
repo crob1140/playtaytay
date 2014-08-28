@@ -27,16 +27,17 @@ $(document).ready(function(){
 	
 	var numSegments = 10;
 	var songs = new Array(numSegments);
-	songs[0] = new Audio('res/songs/quack1.mp3');
-	songs[1] = new Audio('res/songs/quack2.mp3');
-	songs[2] = new Audio('res/songs/quack3.mp3');
-	songs[3] = new Audio('res/songs/quack4.mp3');
-	songs[4] = new Audio('res/songs/quack5.mp3');
-	songs[5] = new Audio('res/songs/quack6.mp3');
-	songs[6] = new Audio('res/songs/quack7.mp3');
-	songs[7] = new Audio('res/songs/cowbell1.mp3');
-	songs[8] = new Audio('res/songs/cowbell2.mp3');
-	songs[9] = new Audio('res/songs/cowbell3.mp3');
+	
+	songs[0] = new Audio("res/songs/TheStoryOfUs.mp3");
+	songs[1] = new Audio("res/songs/YouBelongWithMe.mp3");
+	songs[2] = new Audio("res/songs/IKnewYouWereTrouble.mp3");
+	songs[3] = new Audio("res/songs/LoveStory.mp3");
+	songs[4] = new Audio("res/songs/BackToDecember.mp3");
+	songs[5] = new Audio("res/songs/Ours.mp3");
+	songs[6] = new Audio("res/songs/Mine.mp3");
+	songs[7] = new Audio("res/songs/NeverGettingBackTogether.mp3");
+	songs[8] = new Audio("res/songs/Red.mp3");
+	songs[9] = new Audio("res/songs/SparksFly.mp3");
 	
 	var currentSong;
 	
