@@ -21,7 +21,9 @@ function init_fun(){
 
 function invoke_fun()
 {
-	funTimer = setInterval(funFunction, millisecondsPerFrame, false);
+	if (!funTimer){
+		funTimer = setInterval(funFunction, millisecondsPerFrame, false);
+	}
 }
 
 function funFunction()
