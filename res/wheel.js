@@ -4,16 +4,34 @@ $(document).ready(function(){
 	var canvas = document.getElementById('wheelCanvas');
 	var context = canvas.getContext('2d');
 	var wheelImg = new Image();
-	wheelImg.src = "res/wheel.png";
+	var wheelCentre; 
+	wheelImg.src = "res/wheel.jpg";
 	wheelImg.onload = function(){
+		canvas.width = wheelImg.width;
+		canvas.height = wheelImg.height;
+		wheelCentre = {'x': canvas.offsetLeft + (canvas.width / 2), 'y': canvas.offsetTop + (canvas.height / 2)};
 		context.drawImage(wheelImg, 0, 0);
 	};
 	
-	var wheelCentre = {'x': canvas.offsetLeft + (canvas.width / 2), 'y': canvas.offsetTop + (canvas.height / 2)};
+	
+	
 	var currentMousePosition = {'x': 0, 'y': 0};
 	var timer;
 	
-	var numSegments = 24;
+	var numSegments = 10;
+	var songs = new Array(numSegments);
+	songs[0] = new Audio('res/');
+	songs[1] = new Audio('res/');
+	songs[2] = new Audio('res/');
+	songs[3] = new Audio('res/');
+	songs[4] = new Audio('res/');
+	songs[5] = new Audio('res/');
+	songs[6] = new Audio('res/');
+	songs[7] = new Audio('res/');
+	songs[8] = new Audio('res/');
+	songs[9] = new Audio('res/');
+	var currentSong;
+	
 	var radiansPerPeg = 2*Math.PI / numSegments;
 	
 	var pegSound = new Audio('res/peg.mp3');
@@ -25,7 +43,7 @@ $(document).ready(function(){
 	// Wheel rotation metrics
 	var spinSpeed = 0; // measured in radians per second
 	var naturalDeceleration = 1 / framesPerSecond; // measured in radians/second lost per frame (put radians/second that should be lost per second as the numerator)
-	var collisionDeceleration = 1 / framesPerSecond; // measured in radians/second lost per peg collision
+	var collisionDeceleration = 6 / framesPerSecond; // measured in radians/second lost per peg collision
 	
 	function trackMousePosition(e){
 		currentMousePosition = {'x': e.pageX, 'y': e.pageY};
@@ -53,7 +71,6 @@ $(document).ready(function(){
 	
 	canvas.addEventListener("mouseup", function(){
 		$(document).unbind('mousemove'); // when the left mouse button is released, we can stop tracking the mouse position
-		
 		clearInterval(timer); // we can also stop calling the wheelDrag function
 		timer = setInterval(wheelRelease, millisecondsPerFrame, false); // and instead start calling the wheelRelease function
 	});
@@ -78,6 +95,22 @@ $(document).ready(function(){
 			clearInterval(timer); //if our speed has hit 0, we can stop the timer completely
 	}
 	
+	function wrapAngle(angle){
+		var wrappedAngle = (angle % 2*Math.PI);
+		if (angle < 0)
+			wrappedAngle += 2*Math.PI;
+		return wrappedAngle;
+	}	
+	
+	function selectSong(){
+		totalRotation = wrapAngle(totalRotation);
+		for (i = numSegments; i > 0; i--){
+			if (totalRotation > i*radiansPerPeg){
+				// TODO: play us the song of your people
+				;
+			}
+		}
+	}
 	
 	var previousNextPeg;
 	var currentNextPeg;
