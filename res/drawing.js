@@ -48,6 +48,7 @@ function drawSprite(sprite)
 
 function draw()
 {
+	context.clearRect ( 0 , 0 , canvas.width , canvas.height );
 	for (var i = 0; i < sprites.length; i++)
 	{
 		if (sprites[i].visible)

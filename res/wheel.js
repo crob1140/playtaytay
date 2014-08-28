@@ -6,8 +6,11 @@ $(document).ready(function(){
 	wheel.image.onload = function()
 	{
 		wheel.x = wheel.image.width / 2;
-		wheel.y = wheel.image.width / 2;
+		wheel.y = wheel.image.height / 2;
 		wheelCentre= {x:wheel.x, y:wheel.y};
+		
+		canvas.width = wheel.image.width;
+		canvas.height = wheel.image.height;
 	};
 	
 	
