@@ -17,16 +17,17 @@ $(document).ready(function(){
 	
 	var numSegments = 10;
 	var songs = new Array(numSegments);
-	songs[0] = new Audio('res/');
-	songs[1] = new Audio('res/');
-	songs[2] = new Audio('res/');
-	songs[3] = new Audio('res/');
-	songs[4] = new Audio('res/');
-	songs[5] = new Audio('res/');
-	songs[6] = new Audio('res/');
-	songs[7] = new Audio('res/');
-	songs[8] = new Audio('res/');
-	songs[9] = new Audio('res/');
+	songs[0] = new Audio('res/songs/quack1.mp3');
+	songs[1] = new Audio('res/songs/quack2.mp3');
+	songs[2] = new Audio('res/songs/quack3.mp3');
+	songs[3] = new Audio('res/songs/quack4.mp3');
+	songs[4] = new Audio('res/songs/quack5.mp3');
+	songs[5] = new Audio('res/songs/quack6.mp3');
+	songs[6] = new Audio('res/songs/quack7.mp3');
+	songs[7] = new Audio('res/songs/cowbell1.mp3');
+	songs[8] = new Audio('res/songs/cowbell2.mp3');
+	songs[9] = new Audio('res/songs/cowbell3.mp3');
+	
 	var currentSong;
 	
 	var radiansPerPeg = 2*Math.PI / numSegments;
@@ -85,26 +86,18 @@ $(document).ready(function(){
 			spinSpeed += Math.min(-spinSpeed, tickDeceleration);
 		else if (spinSpeed > 0)
 			spinSpeed -= Math.min(spinSpeed, tickDeceleration); 
-		else
+		else{
 			clearInterval(timer); //if our speed has hit 0, we can stop the timer completely
+			selectSong();
+		}
 	}
 	
 	function wrapAngle(angle){
 		var wrappedAngle = (angle % 2*Math.PI);
 		if (angle < 0)
-			wrappedAngle += 2*Math.PI;
+			wrappedAngle = 2*Math.PI-wrappedAngle;
 		return wrappedAngle;
 	}	
-	
-	function selectSong(){
-		totalRotation = wrapAngle(totalRotation);
-		for (i = numSegments; i > 0; i--){
-			if (totalRotation > i*radiansPerPeg){
-				// TODO: play us the song of your people
-				;
-			}
-		}
-	}
 	
 	var previousNextPeg;
 	var currentNextPeg;
@@ -113,8 +106,7 @@ $(document).ready(function(){
 	
 		// set the rotation point as the middle of the canvas, then rotate the canvas
 		totalRotation += angle;
-		wheel.angle = totalRotation;
-		
+		wheel.angle = totalRotation;//wrapAngle(totalRotation);
 		
 		//Play the peg collision sound if we have moved into a new segment
 		currentNextPeg = Math.ceil(totalRotation/radiansPerPeg)*radiansPerPeg
@@ -124,4 +116,25 @@ $(document).ready(function(){
 			pegSound.play();
 		}
 	}
+	
+	function selectSong(){
+		alert(totalRotation); 
+		//var totalRotationWrapped = wrapAngle(totalRotation);
+		for (i = numSegments; i > 0; i--){
+			alert("radians per peg: " + radiansPerPeg);
+			alert("i: " + i);
+			alert(totalRotation + ">" + i*radiansPerPeg);
+			if (totalRotation > i*radiansPerPeg){ 
+				if (currentSong){
+					currentSong.pause();
+					currentSong.currentTime=0;
+				}
+				alert("playing segment " + i);
+				currentSong = songs[i-1];
+				currentSong.loop = true;
+				currentSong.play();
+				break;
+			}
+		}
+	}	
 });

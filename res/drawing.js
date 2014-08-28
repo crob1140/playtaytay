@@ -41,6 +41,8 @@ function drawSprite(sprite)
 	// draw it up and to the left by half the width
 	// and height of the image 
 	context.drawImage(sprite.image, -(sprite.image.width/2), -(sprite.image.height/2));
+	
+	//context.fillRect(spite.x, sprite.y, 10, 10);
  
 	// and restore the co-ords to how they were when we began
 	context.restore(); 
