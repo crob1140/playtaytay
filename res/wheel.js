@@ -97,11 +97,13 @@ $(document).ready(function(){
 	}
 	
 	function wrapAngle(angle){
-		var wrappedAngle = (angle % 2*Math.PI);
-		alert("input: " + angle + ", output:" + wrappedAngle);
-		if (angle < 0)
-			wrappedAngle = 2*Math.PI-wrappedAngle;
-		return wrappedAngle;
+		while (angle < 0){
+			angle += 2*Math.PI;
+		}
+		while (angle > 2*Math.PI){
+			angle -= 2*Math.PI;
+		}
+		return angle;
 	}	
 	
 	var previousNextPeg;
@@ -122,9 +124,7 @@ $(document).ready(function(){
 	}
 	
 	function selectSong(){
-		alert(totalRotation + " will be changed to ...");
 		totalRotation = wrapAngle(totalRotation);
-		alert(totalRotation);
 		for (i = 1; i <= numSegments; i++){
 			if (totalRotation < i*radiansPerPeg){ 
 				if (currentSong){
