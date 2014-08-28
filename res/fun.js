@@ -5,7 +5,7 @@ var taystep = (Math.PI)/tayperiod;
 var tayprog = 0;
 var taysprite;
 
-function init_fun()
+function init_fun(){
 	taytaylove.push(makeSprite("res/bird.png"));
 	taytaylove.push(makeSprite("res/red_queen.png"));
 	taytaylove.push(makeSprite("res/booyeah.png"));

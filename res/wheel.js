@@ -14,7 +14,7 @@ $(document).ready(function(){
 	};
 	
 	init_fun()
-	
+	invoke_fun();
 	var currentMousePosition = {'x': 0, 'y': 0};
 	var timer;
 	
