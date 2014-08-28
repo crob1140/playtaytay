@@ -5,7 +5,7 @@ var taystep = (Math.PI)/tayperiod;
 var tayprog = 0;
 var taysprite;
 
-$(document).ready(function(){
+function init_fun()
 	taytaylove.push(makeSprite("res/bird.png"));
 	taytaylove.push(makeSprite("res/red_queen.png"));
 	taytaylove.push(makeSprite("res/booyeah.png"));
@@ -17,7 +17,7 @@ $(document).ready(function(){
 		taytaylove[i].visible=false;
 		
 	}
-});
+}
 
 function invoke_fun()
 {
