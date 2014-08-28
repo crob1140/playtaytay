@@ -3,6 +3,12 @@ $(document).ready(function(){
 	var wheelCentre;
 	//'Global' variable instantiation
 	wheel = makeSprite("res/wheel.jpg");
+	peg = makeSprite("res/peg.png");
+	peg.image.onload = function(){
+		wheel.y += peg.image.height;
+		peg.y = peg.image.height/2 + 3;
+		peg.x = wheel.x +6;
+	}
 	wheel.image.onload = function()
 	{
 		wheel.x = wheel.image.width / 2;
@@ -11,6 +17,7 @@ $(document).ready(function(){
 		
 		canvas.width = wheel.image.width;
 		canvas.height = wheel.image.height;
+		
 	};
 	
 	init_fun()
